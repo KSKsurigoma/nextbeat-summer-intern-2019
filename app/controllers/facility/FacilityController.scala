@@ -13,7 +13,7 @@ import persistence.facility.dao.FacilityDAO
 import persistence.facility.model.Facility.formForFacilitySearch
 import persistence.geo.model.Location
 import persistence.geo.dao.LocationDAO
-import model.site.facility.SiteViewValueFacilityList
+import model.site.facility.{SiteViewValueFacilityList, SiteViewValueFacility}
 import model.component.util.ViewValuePageLayout
 
 
@@ -42,6 +42,7 @@ class FacilityController @javax.inject.Inject()(
       Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch))
     }
   }
+
 
   /**
    * 施設検索
@@ -83,4 +84,40 @@ class FacilityController @javax.inject.Inject()(
       }
     )
   }
+
+  /**
+    * 施設編集
+    */
+
+  // とりあえず動くコード（listのコピペなので後で必ず消す）
+//  def edit = Action.async { implicit request =>
+//    for {
+//      locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+//      facilitySeq <- facilityDao.findAll
+//    } yield {
+//      val vv = SiteViewValueFacilityList(
+//        layout     = ViewValuePageLayout(id = request.uri),
+//        location   = locSeq,
+//        facilities = facilitySeq
+//      )
+//      Ok(views.html.site.facility.edit.Main(vv, formForFacilitySearch))
+//    }
+//  }
+
+  def edit(editId: Long) = Action.async { implicit request =>
+    for {
+      locSeq <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+      facility <- facilityDao.get(editId)
+    } yield {
+      val vv = SiteViewValueFacility(
+        layout = ViewValuePageLayout(id = request.uri),
+        location = locSeq,
+        facility = facility
+      )
+      Ok(views.html.site.facility.edit.Main(vv, formForFacilitySearch))
+    }
+  }
+
+
+
 }
