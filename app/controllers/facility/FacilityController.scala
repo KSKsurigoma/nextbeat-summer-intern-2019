@@ -11,6 +11,7 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{AbstractController, MessagesControllerComponents}
 import persistence.facility.dao.FacilityDAO
 import persistence.facility.model.Facility.formForFacilitySearch
+import persistence.facility.model.Facility.formForFacilityEdit
 import persistence.geo.model.Location
 import persistence.geo.dao.LocationDAO
 import model.site.facility.{SiteViewValueFacilityList, SiteViewValueFacility}
@@ -114,7 +115,7 @@ class FacilityController @javax.inject.Inject()(
         location = locSeq,
         facility = facility
       )
-      Ok(views.html.site.facility.edit.Main(vv, formForFacilitySearch))
+      Ok(views.html.site.facility.edit.Main(vv, formForFacilityEdit))
     }
   }
 

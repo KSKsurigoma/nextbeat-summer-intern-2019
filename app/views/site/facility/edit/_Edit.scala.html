@@ -6,11 +6,10 @@
 *@
 @import views.html.helper
 @import model.site.facility.SiteViewValueFacility
-@import model.site.facility.SiteViewValueFacilityList
 @import play.api.data.Form
 
-@import persistence.facility.model.FacilitySearch
-@(vv: SiteViewValueFacilityList, form: Form[FacilitySearch])(implicit messages: play.api.i18n.Messages)
+@import persistence.facility.model.FacilityEdit
+@(vv: SiteViewValueFacility, form: Form[FacilityEdit])(implicit messages: play.api.i18n.Messages)
 
 @** 施設検索一覧 *@
 @views.html.common.layout.InnerContent("site-app-new-user-form", "content") {
@@ -45,7 +44,7 @@
 
 @** --[ 一覧 ]-------------------------------------------------------- *@
 <div class="content__section content">
-    @for(facility <- vv.facilities) {
+    @for(facility <- vv.facility){
     <article class="facility-list-item">
         <a href="#">
             <div class="item-panel__wrapper">
