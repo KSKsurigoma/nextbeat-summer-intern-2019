@@ -11,13 +11,13 @@
 @import persistence.facility.model.FacilityEdit
 @(vv: SiteViewValueFacility, form: Form[FacilityEdit])(implicit messages: play.api.i18n.Messages)
 @views.html.common.layout.Default(vv.layout) {
-@views.html.common.layout.ContentLayout(
-id      = "site-facility-edit",
-content = tplContent
-)
+  @views.html.common.layout.ContentLayout(
+    id      = "site-facility-edit",
+    content = tplContent
+  )
 }
 
 @** テンプレート: コンテンツ *@
 @tplContent = {
-@views.html.site.facility.edit._Edit.(vv, form)
+  @views.html.site.facility.edit._Edit.(vv, form)
 }
