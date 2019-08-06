@@ -14,6 +14,7 @@ import slick.jdbc.JdbcProfile
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.db.slick.HasDatabaseConfigProvider
 import persistence.facility.model.Facility
+import persistence.facility.model.FacilityEdit
 import persistence.geo.model.Location
 
 // DAO: 施設情報
@@ -55,6 +56,16 @@ class FacilityDAO @javax.inject.Inject()(
         .filter(_.locationId inSet locationIds)
         .result
     }
+
+  /** 更新 */
+  def update(editId: Long, facility: FacilityEdit) {
+    db.run{
+      slick
+        .filter(_.id === editId)
+        .map(p => (p.locationId, p.name, p.address, p.description))
+        .update((facility.locationIdOpt.get, facility.nameOpt.get, facility.addressOpt.get, facility.descriptionOpt.get))
+    }
+  }
 
   // --[ テーブル定義 ] --------------------------------------------------------
   class FacilityTable(tag: Tag) extends Table[Facility](tag, "facility") {

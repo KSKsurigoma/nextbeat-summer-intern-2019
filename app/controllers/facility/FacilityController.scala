@@ -12,6 +12,7 @@ import play.api.mvc.{AbstractController, MessagesControllerComponents}
 import persistence.facility.dao.FacilityDAO
 import persistence.facility.model.Facility.formForFacilitySearch
 import persistence.facility.model.Facility.formForFacilityEdit
+import persistence.facility.model.FacilityEdit
 import persistence.geo.model.Location
 import persistence.geo.dao.LocationDAO
 import model.site.facility.{SiteViewValueFacilityList, SiteViewValueFacility}
@@ -90,21 +91,6 @@ class FacilityController @javax.inject.Inject()(
     * 施設編集
     */
 
-  // とりあえず動くコード（listのコピペなので後で必ず消す）
-//  def edit = Action.async { implicit request =>
-//    for {
-//      locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
-//      facilitySeq <- facilityDao.findAll
-//    } yield {
-//      val vv = SiteViewValueFacilityList(
-//        layout     = ViewValuePageLayout(id = request.uri),
-//        location   = locSeq,
-//        facilities = facilitySeq
-//      )
-//      Ok(views.html.site.facility.edit.Main(vv, formForFacilitySearch))
-//    }
-//  }
-
   def edit(editId: Long) = Action.async { implicit request =>
     for {
       locSeq <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
@@ -115,10 +101,23 @@ class FacilityController @javax.inject.Inject()(
         location = locSeq,
         facility = facility
       )
-      Ok(views.html.site.facility.edit.Main(vv, formForFacilityEdit))
+      Ok(views.html.site.facility.edit.Main(vv, formForFacilityEdit.fill(
+        FacilityEdit(
+          Option(facility.get.locationId),
+          Option(facility.get.name),
+          Option(facility.get.address),
+          Option(facility.get.description)
+        ))))
     }
   }
 
+  /**
+    * 施設更新
+    */
 
-
+  def update(editId: Long) = Action { implicit request =>
+    val facility = formForFacilityEdit.bindFromRequest.get
+    facilityDao.update(editId, facility)
+    Redirect(routes.FacilityController.list)
+  }
 }

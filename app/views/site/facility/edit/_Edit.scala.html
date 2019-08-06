@@ -19,6 +19,58 @@
 </h3>
 
 @** --[ 検索フォーム ]---------------------------------------------------------- *@
+<div class="content__section form">
+    @for(facility <- vv.facility) {
+    @helper.form(action = controllers.facility.routes.FacilityController.update(facility.id.get)) {
+    @** 都道府県 *@
+    <div class="form__section pref inline">
+        @helper.select(
+        field   = form("locationId"),
+        options = vv.location.map(v => (v.id, v.namePref)),
+        '_label           -> "都道府県",
+        '_default         -> "未選択",
+        '_showConstraints -> false
+        )
+    </div>
 
-@** --[ 一覧 ]-------------------------------------------------------- *@
+
+    @** --[ 一覧 ]-------------------------------------------------------- *@
+    <div class="content__section content">
+        <article class="facility-list-item">
+                <div class="item-panel__wrapper">
+                    <header class="facility-item__header">
+                        <div class="name">
+                            @helper.inputText(form("name"), '_label -> "名前")
+                        </div>
+                    </header>
+                    <section class="facility-item__content">
+                        <div>
+                            <div class="item-panel__content">
+                                <div class="address">
+                                    <label class="inline"></label>
+                                    @helper.inputText(form("address"), '_label -> "住所")
+                                    <p class="inline">
+                                    </p>
+                                </div>
+                                <div class="description">
+                                    <label class="inline"></label>
+                                    @helper.inputText(form("description"), '_label -> "備考")
+                                    <p class="inline">
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+        </article>
+    </div>
+
+    @** 更新ボタン *@
+    <div class="form__section submit inline">
+        <button class="button" type="submit">
+            <span class="submit__text">更新</span>
+        </button>
+    </div>
+    }
+    }
 }

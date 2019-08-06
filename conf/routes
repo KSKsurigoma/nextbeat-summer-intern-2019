@@ -14,6 +14,7 @@ POST  /app/new-user                     controllers.app.NewUserCommitController.
 GET  /facility/list                    controllers.facility.FacilityController.list
 GET  /facility/search                  controllers.facility.FacilityController.search
 GET  /facility/edit/:editId            controllers.facility.FacilityController.edit(editId: Long)
+POST /facility:editId                  controllers.facility.FacilityController.update(editId:Long)
 
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view
@@ -22,5 +23,4 @@ GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21
 
 # --[ その他 ]------------------------------------------------------------------
 GET  /              controllers.ApplicationController.redirect(to = "/recruit/intership-for-summer-21", from = "")
-#GET  /              controllers.ApplicationController.redirect(to = "/facility/list", from = "")
 GET  /*path         controllers.ApplicationController.redirect(to = "/recruit/intership-for-summer-21", path: String)
